@@ -5,17 +5,17 @@ USE group_database;
 # In BCNF with functional dependencies:
 # group_id -> group_name
 CREATE TABLE group_table (group_id INT PRIMARY KEY
-                    ,group_name VARCHAR(30));
+                    ,group_name VARCHAR(50));
 
 # In BCNF with functional dependencies:
 # No non-trivial FDs
 CREATE TABLE follower_table (group_id INT PRIMARY KEY
-                        ,user_id VARCHAR(30));
+                        ,user_id INT);
 
 # In BCNF with functional dependencies:
 # (group_id, user_id) -> is_admin
 CREATE TABLE admin_table (group_id INT PRIMARY KEY
-                        ,user_id VARCHAR(30)
+                        ,user_id INT
                         ,is_admin BOOLEAN);
 
 # In BCNF with functional dependencies:
