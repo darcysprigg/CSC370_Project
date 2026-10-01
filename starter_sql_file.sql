@@ -7,6 +7,21 @@ CREATE TABLE Event (
     event_details VARCHAR(200)
 );
 
+CREATE TABLE Post (
+    post_id INT PRIMARY KEY,
+    post_name VARCHAR(150),
+    date_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    post_type ENUM('Post', 'Event') DEFAULT 'Post',
+    text_contents VARCHAR(2000)
+);
+
+CREATE TABLE Uploads (
+    user INT, post INT,
+    FOREIGN KEY(user) REFERENCES User(user_id),
+    FOREIGN KEY(post) REFERENCES Post(post_id),
+    PRIMARY KEY('user_id', 'post_id')
+);
+
 # In BCNF with functional dependencies:
 # group_id -> group_name
 CREATE TABLE group_table (group_id INT PRIMARY KEY
