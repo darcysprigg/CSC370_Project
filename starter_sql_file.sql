@@ -6,3 +6,31 @@ CREATE TABLE Event (
     group_id INT,
     event_details VARCHAR(200)
 );
+
+# In BCNF with functional dependencies:
+# group_id -> group_name
+CREATE TABLE group_table (group_id INT PRIMARY KEY
+                    ,group_name VARCHAR(50));
+
+# In BCNF with functional dependencies:
+# No non-trivial FDs
+CREATE TABLE follower_table (group_id INT PRIMARY KEY
+                        ,user_id INT);
+
+# In BCNF with functional dependencies:
+# (group_id, user_id) -> is_admin
+CREATE TABLE admin_table (group_id INT PRIMARY KEY
+                        ,user_id INT
+                        ,is_admin BOOLEAN);
+
+# In BCNF with functional dependencies:
+# post_id -> group_id
+CREATE TABLE post_table (group_id INT PRIMARY KEY
+                    ,post_id INT);
+
+# In BCNF with functional dependencies:
+# post_id -> group_id, event_id
+# event_id -> group_id, post_id
+CREATE TABLE event_table (group_id INT PRIMARY KEY
+                    ,post_id INT
+                    ,event_id INT);
