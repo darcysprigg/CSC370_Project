@@ -48,15 +48,11 @@ CREATE TABLE group_table (group_id INT PRIMARY KEY
                     ,group_name VARCHAR(50));
 
 # In BCNF with functional dependencies:
-# No non-trivial FDs
-CREATE TABLE follower_table (group_id INT PRIMARY KEY
-                        ,user_id INT);
-
-# In BCNF with functional dependencies:
 # (group_id, user_id) -> is_admin
-CREATE TABLE admin_table (group_id INT PRIMARY KEY
+CREATE TABLE admin_table (group_id INT
                         ,user_id INT
-                        ,is_admin BOOLEAN);
+                        ,is_admin BOOLEAN
+                        ,PRIMARY KEY (group_id, user_id));
 
 # In BCNF with functional dependencies:
 # post_id -> group_id
