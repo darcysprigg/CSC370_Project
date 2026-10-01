@@ -31,6 +31,7 @@ CREATE TABLE Event (
     event_date_time TIMESTAMP,
     group_id INT,
     event_details VARCHAR(200)
+    FOREIGN KEY(group_id) REFERENCES group_table(group_id)
 );
 
 CREATE TABLE Follows (
