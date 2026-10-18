@@ -39,8 +39,6 @@ CREATE TABLE Follows (
     group_id INT
 );
 
-# In BCNF with functional dependencies:
-# group_id -> group_name
 CREATE TABLE group_table (group_id INT PRIMARY KEY
                     ,group_name VARCHAR(50));
 
@@ -50,8 +48,6 @@ ADD CONSTRAINT fk_follow_user
 ADD CONSTRAINT fk_follow_group
     FOREIGN KEY (group_id) REFERENCES group_table(group_id);
 
-# In BCNF with functional dependencies:
-# (group_id, user_id) -> is_admin
 CREATE TABLE admin_table (group_id INT
                         ,user_id INT
                         ,is_admin BOOLEAN
@@ -59,19 +55,14 @@ CREATE TABLE admin_table (group_id INT
                         ,FOREIGN KEY (group_id) REFERENCES group_table(group_id)
                         ,FOREIGN KEY (user_id) REFERENCES User(user_id));
 
-# In BCNF with functional dependencies:
-# post_id -> group_id
 CREATE TABLE post_table (group_id INT PRIMARY KEY
                     , post_id INT
                     , FOREIGN KEY (group_id) REFERENCES group_table(group_id)
                     , FOREIGN KEY (post_id) REFERENCES Post(post_id));
 
-# In BCNF with functional dependencies:
-# post_id -> group_id, event_id
-# event_id -> group_id, post_id
-CREATE TABLE event_table (group_id INT PRIMARY KEY
-                    ,post_id INT
-                    ,event_id INT
+CREATE TABLE event_table (group_id INT NOT NULL
+                    ,post_id INT PRIMARY KEY
+                    ,event_id INT UNIQUE
                     , FOREIGN KEY (group_id) REFERENCES group_table(group_id)
                     , FOREIGN KEY (post_id) REFERENCES Post(post_id)
                     , FOREIGN KEY (event_id) REFERENCES Event(event_id));
