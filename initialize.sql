@@ -19,7 +19,7 @@ CREATE TABLE Post (
 );
 
 CREATE TABLE Uploads (
-    user INT, post INT,
+    user INT NOT NULL, post INT NOT NULL,
     FOREIGN KEY(user) REFERENCES User(user_id),
     FOREIGN KEY(post) REFERENCES Post(post_id),
     PRIMARY KEY(user, post)
@@ -35,12 +35,13 @@ CREATE TABLE Event (
 );
 
 CREATE TABLE Follows (
-    user_id INT,
-    group_id INT
+    user_id INT NOT NULL,
+    group_id INT NOT NULL,
+    PRIMARY KEY (user_id, group_id)
 );
 
 CREATE TABLE group_table (group_id INT PRIMARY KEY
-                    ,group_name VARCHAR(50));
+                    ,group_name VARCHAR(50) NOT NULL);
 
 ALTER TABLE Follows
 ADD CONSTRAINT fk_follow_user
