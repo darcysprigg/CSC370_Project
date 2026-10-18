@@ -41,8 +41,8 @@ CREATE TABLE Event_Post (
 );
 
 CREATE TABLE Member_Of (
-    user_id INT,
-    group_id INT,
+    user_id INT NOT NULL,
+    group_id INT NOT NULL,
     role_type ENUM('Regular Group Member', 'Group Admin') DEFAULT 'Regular Group Member',
     PRIMARY KEY(user_id, group_id),
     FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE,
