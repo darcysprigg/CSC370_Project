@@ -48,9 +48,9 @@ ADD CONSTRAINT fk_follow_user
 ADD CONSTRAINT fk_follow_group
     FOREIGN KEY (group_id) REFERENCES group_table(group_id);
 
-CREATE TABLE admin_table (group_id INT
-                        ,user_id INT
-                        ,is_admin BOOLEAN
+CREATE TABLE admin_table (group_id INT NOT NULL,
+                        user_id INT NOT NULL,
+                        is_admin BOOLEAN NOT NULL DEFAULT FALSE,
                         ,PRIMARY KEY (group_id, user_id)
                         ,FOREIGN KEY (group_id) REFERENCES group_table(group_id)
                         ,FOREIGN KEY (user_id) REFERENCES User(user_id));
