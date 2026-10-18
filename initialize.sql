@@ -4,7 +4,9 @@ USE project_database;
 CREATE TABLE User (
     user_id INT PRIMARY KEY,
     username VARCHAR(20) NOT NULL,
-    email VARCHAR(40) NOT NULL -- validate uvic email?
+    email VARCHAR(40) NOT NULL
+    CONSTRAINT chk_uvic_email
+        CHECK (email LIKE '%@uvic.ca')
 );
 
 # In BCNF with functional dependencies:
