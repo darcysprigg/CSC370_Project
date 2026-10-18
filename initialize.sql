@@ -17,7 +17,7 @@ CREATE TABLE Post (
 );
 
 CREATE TABLE Uploads (
-    user INT, post INT,
+    user INT NOT NULL, post INT NOT NULL,
     FOREIGN KEY(user) REFERENCES User(user_id),
     FOREIGN KEY(post) REFERENCES Post(post_id),
     PRIMARY KEY(user, post)
@@ -51,10 +51,8 @@ CREATE TABLE Advertises (
     PRIMARY KEY(post_id, event_id)
 );
 
-# In BCNF with functional dependencies:
-# group_id -> group_name
 CREATE TABLE group_table (group_id INT PRIMARY KEY
-                    ,group_name VARCHAR(50));
+                    ,group_name VARCHAR(50) NOT NULL);
 
 # In BCNF with functional dependencies:
 # post_id -> group_id
