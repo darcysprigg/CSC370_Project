@@ -1,5 +1,4 @@
 CREATE DATABASE project_database;
-
 USE project_database;
 
 CREATE TABLE User (
@@ -7,6 +6,11 @@ CREATE TABLE User (
     username VARCHAR(20) NOT NULL,
     email VARCHAR(40) NOT NULL -- validate uvic email?
 );
+
+# In BCNF with functional dependencies:
+# group_id -> group_name
+CREATE TABLE group_table (group_id INT PRIMARY KEY,
+                        group_name VARCHAR(50));
 
 CREATE TABLE Post (
     post_id INT PRIMARY KEY,
@@ -16,18 +20,10 @@ CREATE TABLE Post (
     text_contents VARCHAR(2000),
 );
 
-CREATE TABLE Uploads (
-    user INT NOT NULL, post INT NOT NULL,
-    FOREIGN KEY(user) REFERENCES User(user_id),
-    FOREIGN KEY(post) REFERENCES Post(post_id),
-    PRIMARY KEY(user, post)
-);
-
 CREATE TABLE Event (
     event_id INT PRIMARY KEY,
     event_name VARCHAR(50) NOT NULL,
     event_date_time TIMESTAMP,
-    group_id INT,
     created_by INT NOT NULL,
     event_details VARCHAR(200),
     FOREIGN KEY(group_id) REFERENCES group_table(group_id),
@@ -43,6 +39,20 @@ CREATE TABLE Member_Of (
     PRIMARY KEY(user_id, group_id)
 );
 
+CREATE TABLE Uploads (
+    user_id INT NOT NULL, post_id INT NOT NULL,
+    FOREIGN KEY(user_id) REFERENCES User(user_id),
+    FOREIGN KEY(post_id) REFERENCES Post(post_id),
+    PRIMARY KEY(user_id, post_id)
+);
+
+CREATE TABLE Hosts (
+    group_id INT NOT NULL, event_id INT NOT NULL,
+    FOREIGN KEY(group_id) REFERENCES group_table(group_id),
+    FOREIGN KEY(event_id) REFERENCES Event(event_id),
+    PRIMARY KEY(group_id, event_id)
+);
+
 CREATE TABLE Advertises (
     post_id INT,
     event_id INT,
@@ -50,9 +60,6 @@ CREATE TABLE Advertises (
     FOREIGN KEY (event_id) REFERENCES Event(event_id),
     PRIMARY KEY(post_id, event_id)
 );
-
-CREATE TABLE group_table (group_id INT PRIMARY KEY
-                    ,group_name VARCHAR(50) NOT NULL);
 
 # In BCNF with functional dependencies:
 # post_id -> group_id
