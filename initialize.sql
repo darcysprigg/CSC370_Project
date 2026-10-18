@@ -14,20 +14,26 @@ CREATE TABLE User (
 CREATE TABLE group_table (group_id INT PRIMARY KEY,
                         group_name VARCHAR(50));
 
-CREATE TABLE Post (
-    post_id INT PRIMARY KEY,
-    post_name VARCHAR(150),
-    date_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    post_type ENUM('Post', 'Event') DEFAULT 'Post', -- might not need?
-    text_contents VARCHAR(2000),
-);
-
 CREATE TABLE Event (
     event_id INT PRIMARY KEY,
     event_name VARCHAR(50) NOT NULL,
     event_date_time TIMESTAMP,
     created_by INT NOT NULL,
     event_details VARCHAR(200),
+    FOREIGN KEY(group_id) REFERENCES group_table(group_id) ON DELETE CASCADE,
+    FOREIGN KEY(created_by) REFERENCES User(user_id) -- for implementing constraint that only group admin can create event
+);
+
+CREATE TABLE Post (
+    post_id INT PRIMARY KEY,
+    post_name VARCHAR(150),
+    date_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    post_type ENUM('Post', 'Event') DEFAULT 'Post', -- might not need?
+    text_contents VARCHAR(2000),
+    user_id INT,
+    event_id INT,
+    FOREIGN KEY(user_id) REFERENCES User(user_id) ON DELETE CASCADE,
+    FOREIGN KEY(event_id) REFERENCES Event(event_id) ON DELETE SET NULL
     FOREIGN KEY(created_by) REFERENCES User(user_id), -- for implementing constraint that only group admin can create event
 );
 
@@ -35,31 +41,9 @@ CREATE TABLE Member_Of (
     user_id INT,
     group_id INT,
     role_type ENUM('Regular Group Member', 'Group Admin') DEFAULT 'Regular Group Member',
-    FOREIGN KEY (user_id) REFERENCES User(user_id),
-    FOREIGN KEY (group_id) REFERENCES group_table(group_id),
     PRIMARY KEY(user_id, group_id)
-);
-
-CREATE TABLE Uploads (
-    user_id INT NOT NULL, post_id INT NOT NULL,
-    FOREIGN KEY(user_id) REFERENCES User(user_id),
-    FOREIGN KEY(post_id) REFERENCES Post(post_id),
-    PRIMARY KEY(user_id, post_id)
-);
-
-CREATE TABLE Hosts (
-    group_id INT NOT NULL, event_id INT NOT NULL,
-    FOREIGN KEY(group_id) REFERENCES group_table(group_id),
-    FOREIGN KEY(event_id) REFERENCES Event(event_id),
-    PRIMARY KEY(group_id, event_id)
-);
-
-CREATE TABLE Advertises (
-    post_id INT,
-    event_id INT,
-    FOREIGN KEY (post_id) REFERENCES Post(post_id),
-    FOREIGN KEY (event_id) REFERENCES Event(event_id),
-    PRIMARY KEY(post_id, event_id)
+    FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (group_id) REFERENCES group_table(group_id) ON DELETE CASCADE
 );
 
 # In BCNF with functional dependencies:
