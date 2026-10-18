@@ -51,10 +51,6 @@ CREATE TABLE Member_Of (
     FOREIGN KEY (group_id) REFERENCES group_table(group_id) ON DELETE CASCADE
 );
 
-# In BCNF with functional dependencies:
-# post_id -> group_id
-CREATE TABLE post_table (group_id INT PRIMARY KEY
-                    ,post_id INT);
 
 /* Contraint: No regular group member can create an event for their group
  * Relations: Member_Of(user_id, group_id, role_type), Event(event_id, event_name, event_date_time, created_by, text:details)
