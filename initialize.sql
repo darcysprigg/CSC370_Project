@@ -9,8 +9,6 @@ CREATE TABLE User (
         CHECK (email LIKE '%@uvic.ca')
 );
 
-# In BCNF with functional dependencies:
-# group_id -> group_name
 CREATE TABLE group_table (group_id INT PRIMARY KEY,
                         group_name VARCHAR(50));
 
@@ -30,7 +28,7 @@ CREATE TABLE Post (
     post_name VARCHAR(150),
     date_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     text_contents VARCHAR(2000),
-    user_id INT,
+    user_id INT NOT NULL,
     FOREIGN KEY(user_id) REFERENCES User(user_id) ON DELETE CASCADE,
     FOREIGN KEY(created_by) REFERENCES User(user_id) -- for implementing constraint that only group admin can create event
 );
