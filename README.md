@@ -1,3 +1,3 @@
 # CSC370_Project
 
-Project - UVic Confessions Page
+Project - UVic Bulletin Board
