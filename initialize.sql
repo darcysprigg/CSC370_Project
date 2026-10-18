@@ -4,7 +4,9 @@ USE project_database;
 CREATE TABLE User (
     user_id INT PRIMARY KEY,
     username VARCHAR(20) NOT NULL,
-    email VARCHAR(40) NOT NULL -- validate uvic email?
+    email VARCHAR(40) NOT NULL
+    CONSTRAINT chk_uvic_email
+        CHECK (email LIKE '%@uvic.ca')
 );
 
 # In BCNF with functional dependencies:
@@ -32,6 +34,7 @@ CREATE TABLE Post (
     event_id INT,
     FOREIGN KEY(user_id) REFERENCES User(user_id) ON DELETE CASCADE,
     FOREIGN KEY(event_id) REFERENCES Event(event_id) ON DELETE SET NULL
+    FOREIGN KEY(created_by) REFERENCES User(user_id), -- for implementing constraint that only group admin can create event
 );
 
 CREATE TABLE Member_Of (
@@ -47,13 +50,6 @@ CREATE TABLE Member_Of (
 # post_id -> group_id
 CREATE TABLE post_table (group_id INT PRIMARY KEY
                     ,post_id INT);
-
-# In BCNF with functional dependencies:
-# post_id -> group_id, event_id
-# event_id -> group_id, post_id
-CREATE TABLE event_table (group_id INT PRIMARY KEY
-                    ,post_id INT
-                    ,event_id INT);
 
 /* Contraint: No regular group member can create an event for their group
  * Relations: Member_of(user_id, group_id, role_type), Event(event_id, event_name, event_date_time, created_by, text:details)
