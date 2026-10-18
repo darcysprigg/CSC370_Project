@@ -4,7 +4,7 @@ USE project_database;
 CREATE TABLE User (
     user_id INT PRIMARY KEY,
     username VARCHAR(20) NOT NULL,
-    email VARCHAR(40) NOT NULL
+    email VARCHAR(40) NOT NULL,
     CONSTRAINT chk_uvic_email
         CHECK (email LIKE '%@uvic.ca')
 );
@@ -20,6 +20,7 @@ CREATE TABLE Event (
     event_date_time TIMESTAMP,
     created_by INT NOT NULL,
     event_details VARCHAR(200),
+    group_id INT NOT NULL,
     FOREIGN KEY(group_id) REFERENCES group_table(group_id) ON DELETE CASCADE,
     FOREIGN KEY(created_by) REFERENCES User(user_id) -- for implementing constraint that only group admin can create event
 );
@@ -31,7 +32,7 @@ CREATE TABLE Post (
     text_contents VARCHAR(2000),
     user_id INT,
     FOREIGN KEY(user_id) REFERENCES User(user_id) ON DELETE CASCADE,
-    FOREIGN KEY(created_by) REFERENCES User(user_id), -- for implementing constraint that only group admin can create event
+    FOREIGN KEY(created_by) REFERENCES User(user_id) -- for implementing constraint that only group admin can create event
 );
 
 CREATE TABLE Event_Post (
@@ -45,7 +46,7 @@ CREATE TABLE Member_Of (
     user_id INT,
     group_id INT,
     role_type ENUM('Regular Group Member', 'Group Admin') DEFAULT 'Regular Group Member',
-    PRIMARY KEY(user_id, group_id)
+    PRIMARY KEY(user_id, group_id),
     FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE,
     FOREIGN KEY (group_id) REFERENCES group_table(group_id) ON DELETE CASCADE
 );
@@ -56,7 +57,7 @@ CREATE TABLE post_table (group_id INT PRIMARY KEY
                     ,post_id INT);
 
 /* Contraint: No regular group member can create an event for their group
- * Relations: Member_of(user_id, group_id, role_type), Event(event_id, event_name, event_date_time, created_by, text:details)
+ * Relations: Member_Of(user_id, group_id, role_type), Event(event_id, event_name, event_date_time, created_by, text:details)
  * There does not exist an event in which the creator is a 'Regular Group Member' of the group hosting the event
  */
 DELIMITER //
@@ -67,7 +68,7 @@ FOR EACH ROW
 BEGIN 
     IF NOT EXISTS (
         SELECT 1
-        FROM Member_of
+        FROM Member_Of
         WHERE user_id = NEW.created_by AND group_id = NEW.group_id AND role_type = 'Group Admin' -- checks the user is apart of the group and is group admin
     ) THEN
         SIGNAL SQLSTATE '45000'
