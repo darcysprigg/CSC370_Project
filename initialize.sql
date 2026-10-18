@@ -10,24 +10,24 @@ CREATE TABLE User (
 );
 
 CREATE TABLE group_table (group_id INT PRIMARY KEY,
-                        group_name VARCHAR(50));
+                        group_name VARCHAR(50) NOT NULL);
 
 CREATE TABLE Event (
     event_id INT PRIMARY KEY,
     event_name VARCHAR(50) NOT NULL,
-    event_date_time TIMESTAMP,
+    event_date_time DATETIME NOT NULL,
     created_by INT NOT NULL,
-    event_details VARCHAR(200),
+    event_details VARCHAR(200) NOT NULL,
     group_id INT NOT NULL,
     FOREIGN KEY(group_id) REFERENCES group_table(group_id) ON DELETE CASCADE,
-    FOREIGN KEY(created_by) REFERENCES User(user_id) -- for implementing constraint that only group admin can create event
+    FOREIGN KEY(created_by) REFERENCES User(user_id) ON DELETE CASCADE -- for implementing constraint that only group admin can create event
 );
 
 CREATE TABLE Post (
     post_id INT PRIMARY KEY,
     post_name VARCHAR(150),
     date_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    text_contents VARCHAR(2000),
+    text_contents VARCHAR(2000) NOT NULL,
     user_id INT NOT NULL,
     FOREIGN KEY(user_id) REFERENCES User(user_id) ON DELETE CASCADE,
 );
