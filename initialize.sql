@@ -26,7 +26,7 @@ CREATE TABLE Event (
     event_date_time TIMESTAMP,
     created_by INT NOT NULL,
     event_details VARCHAR(200),
-    FOREIGN KEY(group_id) REFERENCES group_table(group_id),
+    FOREIGN KEY(group_id) REFERENCES group_table(group_id) ON DELETE CASCADE,
     FOREIGN KEY(created_by) REFERENCES User(user_id), -- for implementing constraint that only group admin can create event
 );
 
