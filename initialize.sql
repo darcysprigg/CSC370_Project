@@ -55,8 +55,8 @@ CREATE TABLE admin_table (group_id INT
                         ,FOREIGN KEY (group_id) REFERENCES group_table(group_id)
                         ,FOREIGN KEY (user_id) REFERENCES User(user_id));
 
-CREATE TABLE post_table (group_id INT PRIMARY KEY
-                    , post_id INT
+CREATE TABLE post_table (group_id INT NOT NULL
+                    , post_id INT PRIMARY KEY
                     , FOREIGN KEY (group_id) REFERENCES group_table(group_id)
                     , FOREIGN KEY (post_id) REFERENCES Post(post_id));
 
