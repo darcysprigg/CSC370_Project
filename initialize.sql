@@ -32,7 +32,6 @@ CREATE TABLE Post (
     text_contents VARCHAR(2000),
     user_id INT,
     FOREIGN KEY(user_id) REFERENCES User(user_id) ON DELETE CASCADE,
-    FOREIGN KEY(created_by) REFERENCES User(user_id) -- for implementing constraint that only group admin can create event
 );
 
 CREATE TABLE Event_Post (
