@@ -28,13 +28,17 @@ CREATE TABLE Post (
     post_id INT PRIMARY KEY,
     post_name VARCHAR(150),
     date_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    post_type ENUM('Post', 'Event') DEFAULT 'Post', -- might not need?
     text_contents VARCHAR(2000),
     user_id INT,
-    event_id INT,
     FOREIGN KEY(user_id) REFERENCES User(user_id) ON DELETE CASCADE,
-    FOREIGN KEY(event_id) REFERENCES Event(event_id) ON DELETE SET NULL
     FOREIGN KEY(created_by) REFERENCES User(user_id), -- for implementing constraint that only group admin can create event
+);
+
+CREATE TABLE Event_Post (
+    post_id INT PRIMARY KEY,          -- same key as the superclass
+    event_id INT NOT NULL,
+    FOREIGN KEY (post_id) REFERENCES Post(post_id) ON DELETE CASCADE,
+    FOREIGN KEY (event_id) REFERENCES Event(event_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Member_Of (
