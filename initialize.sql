@@ -18,8 +18,8 @@ CREATE TABLE Event (
     event_date_time DATETIME NOT NULL,
     created_by INT NOT NULL,
     event_details VARCHAR(200) NOT NULL,
-    group_id INT NOT NULL,
-    FOREIGN KEY(group_id) REFERENCES group_table(group_id) ON DELETE CASCADE,
+    group_id INT NOT NULL,  -- hosts
+    FOREIGN KEY(group_id) REFERENCES group_table(group_id) ON DELETE CASCADE,  -- hosts
     FOREIGN KEY(created_by) REFERENCES User(user_id) ON DELETE CASCADE -- for implementing constraint that only group admin can create event
 );
 
@@ -28,15 +28,15 @@ CREATE TABLE Post (
     post_name VARCHAR(150),
     date_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     text_contents VARCHAR(2000) NOT NULL,
-    user_id INT NOT NULL,
-    FOREIGN KEY(user_id) REFERENCES User(user_id) ON DELETE CASCADE,
+    user_id INT NOT NULL,  -- uploads
+    FOREIGN KEY(user_id) REFERENCES User(user_id) ON DELETE CASCADE,  -- uploads
 );
 
 CREATE TABLE Event_Post (
     post_id INT PRIMARY KEY,          -- same key as the superclass
-    event_id INT NOT NULL,
+    event_id INT NOT NULL,  -- advertises
     FOREIGN KEY (post_id) REFERENCES Post(post_id) ON DELETE CASCADE,
-    FOREIGN KEY (event_id) REFERENCES Event(event_id) ON DELETE CASCADE
+    FOREIGN KEY (event_id) REFERENCES Event(event_id) ON DELETE CASCADE  -- advertises
 );
 
 CREATE TABLE Member_Of (
@@ -47,7 +47,6 @@ CREATE TABLE Member_Of (
     FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE,
     FOREIGN KEY (group_id) REFERENCES group_table(group_id) ON DELETE CASCADE
 );
-
 
 /* Contraint: No regular group member can create an event for their group
  * Relations: Member_Of(user_id, group_id, role_type), Event(event_id, event_name, event_date_time, created_by, text:details)
