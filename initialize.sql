@@ -42,12 +42,12 @@ CREATE TABLE Event_Post (
 CREATE TABLE Comment (
     comment_id INT,
     post_id INT,
-    user_id INT,
+    commenter_id INT, -- user who posts comment
     date_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     text_contents VARCHAR(2000) NOT NULL,
     PRIMARY KEY (comment_id, post_id, user_id),
     FOREIGN KEY (post_id) REFERENCES Post(post_id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE
+    FOREIGN KEY (commenter_id) REFERENCES User(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Member_Of (
