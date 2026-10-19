@@ -29,7 +29,7 @@ CREATE TABLE Post (
     date_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     text_contents VARCHAR(2000) NOT NULL,
     user_id INT NOT NULL,  -- uploads
-    FOREIGN KEY(user_id) REFERENCES User(user_id) ON DELETE CASCADE,  -- uploads
+    FOREIGN KEY(user_id) REFERENCES User(user_id) ON DELETE CASCADE  -- uploads
 );
 
 CREATE TABLE Event_Post (
@@ -37,6 +37,17 @@ CREATE TABLE Event_Post (
     event_id INT NOT NULL,  -- advertises
     FOREIGN KEY (post_id) REFERENCES Post(post_id) ON DELETE CASCADE,
     FOREIGN KEY (event_id) REFERENCES Event(event_id) ON DELETE CASCADE  -- advertises
+);
+
+CREATE TABLE Comment (
+    comment_id INT,
+    post_id INT,
+    user_id INT,
+    date_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    text_contents VARCHAR(2000) NOT NULL,
+    PRIMARY KEY (comment_id, post_id, user_id),
+    FOREIGN KEY (post_id) REFERENCES Post(post_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Member_Of (
