@@ -60,7 +60,7 @@ CREATE TABLE Member_Of (
 );
 
 /* Contraint: No regular group member can create an event for their group
- * Relations: Member_Of(user_id, group_id, role_type), Event(event_id, event_name, event_date_time, created_by, text:details)
+ * Relations: Member_Of(user_id, group_id, role_type), Event(event_id, created_by, group_id)
  * There does not exist an event in which the creator is a 'Regular Group Member' of the group hosting the event
  */
 DELIMITER //
