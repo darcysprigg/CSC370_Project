@@ -3,14 +3,14 @@ USE project_database;
 
 CREATE TABLE User (
     user_id INT PRIMARY KEY,
-    username VARCHAR(20) NOT NULL,
-    email VARCHAR(40) NOT NULL,
+    username VARCHAR(20) NOT NULL UNIQUE,
+    email VARCHAR(40) NOT NULL UNIQUE,
     CONSTRAINT chk_uvic_email
         CHECK (email LIKE '%@uvic.ca')
 );
 
 CREATE TABLE group_table (group_id INT PRIMARY KEY,
-                        group_name VARCHAR(50) NOT NULL);
+                        group_name VARCHAR(50) NOT NULL UNIQUE);
 
 CREATE TABLE Event (
     event_id INT PRIMARY KEY,
