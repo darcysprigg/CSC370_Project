@@ -46,8 +46,8 @@ CREATE TABLE Comment (
     date_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     text_contents VARCHAR(2000) NOT NULL,
     PRIMARY KEY (comment_id, post_id, commenter_id),
-    FOREIGN KEY (post_id) REFERENCES Post(post_id) ON DELETE CASCADE,
-    FOREIGN KEY (commenter_id) REFERENCES User(user_id) ON DELETE CASCADE
+    FOREIGN KEY (post_id) REFERENCES Post(post_id) ON DELETE CASCADE,  -- replies to
+    FOREIGN KEY (commenter_id) REFERENCES User(user_id) ON DELETE CASCADE  -- writes
 );
 
 CREATE TABLE Member_Of (
