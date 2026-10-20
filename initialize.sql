@@ -45,7 +45,7 @@ CREATE TABLE Comment (
     commenter_id INT, -- user who posts comment
     date_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     text_contents VARCHAR(2000) NOT NULL,
-    PRIMARY KEY (comment_id, post_id, user_id),
+    PRIMARY KEY (comment_id, post_id, commenter_id),
     FOREIGN KEY (post_id) REFERENCES Post(post_id) ON DELETE CASCADE,
     FOREIGN KEY (commenter_id) REFERENCES User(user_id) ON DELETE CASCADE
 );
