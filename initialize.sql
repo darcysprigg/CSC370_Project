@@ -62,7 +62,7 @@ CREATE TABLE Member_Of (
 CREATE TABLE Is_Attending (
     user_id INT NOT NULL,
     event_id INT NOT NULL,
-    status ENUM('Not Attending', 'Interested', 'Attending') DEFAULT 'Not Attending',
+    status ENUM('RSVP No', 'Interested', 'Attending') NOT NULL, -- only added to table if person has responded
     PRIMARY KEY (user_id, event_id),
     FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE,
     FOREIGN KEY (event_id) REFERENCES Event(event_id) ON DELETE CASCADE
