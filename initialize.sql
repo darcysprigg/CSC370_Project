@@ -59,6 +59,16 @@ CREATE TABLE Member_Of (
     FOREIGN KEY (group_id) REFERENCES group_table(group_id) ON DELETE CASCADE
 );
 
+CREATE TABLE Is_Attending (
+    user_id INT NOT NULL,
+    event_id INT NOT NULL,
+    status ENUM('Not Attending', 'Interested', 'Attending') DEFAULT 'Not Attending',
+    PRIMARY KEY (user_id, event_id),
+    FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (event_id) REFERENCES Event(event_id) ON DELETE CASCADE
+);
+    
+
 /* Contraint: No regular group member can create an event for their group
  * Relations: Member_Of(user_id, group_id, role_type), Event(event_id, created_by, group_id)
  * There does not exist an event in which the creator is a 'Regular Group Member' of the group hosting the event
