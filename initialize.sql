@@ -40,14 +40,14 @@ CREATE TABLE Event_Post (
 );
 
 CREATE TABLE Comment (
-    comment_id INT,
-    post_id INT,
-    commenter_id INT, -- user who posts comment
+    comment_id INT NOT NULL,
+    post_id INT NOT NULL,
+    commenter_id INT NOT NULL,
     date_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     text_contents VARCHAR(2000) NOT NULL,
-    PRIMARY KEY (comment_id, post_id, commenter_id),
-    FOREIGN KEY (post_id) REFERENCES Post(post_id) ON DELETE CASCADE,  -- replies to
-    FOREIGN KEY (commenter_id) REFERENCES User(user_id) ON DELETE CASCADE  -- writes
+    PRIMARY KEY (post_id, comment_id),
+    FOREIGN KEY (post_id) REFERENCES Post(post_id) ON DELETE CASCADE,
+    FOREIGN KEY (commenter_id) REFERENCES User(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Member_Of (
