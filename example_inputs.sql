@@ -6,7 +6,10 @@ VALUES (470001, 'Study Group');
 
 INSERT INTO User (user_id, username, email)
 VALUES (000001, 'confused_student', 'confused_student@uvic.ca'),
-       (000002, 'best_tutor', 'best_tutor@uvic.ca');
+       (000002, 'best_tutor', 'best_tutor@uvic.ca'),
+       (000003, 'Harry Potter', 'harry_potter@uvic.ca'),
+       (000004, 'Ronald Weasley', 'ron@uvic.ca'),
+       (000005, 'Luke Skywalker', 'Lukey@uvic.ca');
 
 INSERT INTO Member_Of (user_id, group_id, role_type)
 VALUES (000001, 470001, 'Regular Group Member'),
@@ -25,3 +28,14 @@ VALUES (450002, 'Study Cafe', '2026-11-01 12:00:00',
 -- only event with id 450002 should appear
 SELECT event_id, event_name, created_by, group_id
 FROM Event;
+
+
+INSERT INTO POST (post_id, post_name, text_contents, user_id)
+VALUES (000001, "What is your favorite food at the Cove?", "Looking for some suggestions", 000001),
+        (000002, "Who stole my bike?", "Please return it!!!", 000002);
+
+
+INSERT INTO COMMENT (comment_id, post_id, commenter_id, text_contents)
+VALUES (000001, 000001, 000005, "It's all terrible, try the Mystic Market Instead!"),
+        (000002, 000001, 000003, "I have had decent luck with the Pizza"),
+        (000003, 000002, 000003, "Stop looking, its mine now");
